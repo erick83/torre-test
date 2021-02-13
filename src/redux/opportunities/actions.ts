@@ -1,3 +1,4 @@
+export const AGGREGATORS_STORE = 'AGGREGATORS STORE'
 export const OPPORTUNITIES_STORE = 'OPPORTUNITIES STORE'
 // export const LOGIN_SUCCESS = 'BIO _LOGIN_SUCCESS'
 // export const LOGIN_ERROR = 'BIO_LOGIN_ERROR'
@@ -8,6 +9,11 @@ export const OPPORTUNITIES_STORE = 'OPPORTUNITIES STORE'
 // export const GET_BIO_INFO_ERROR = 'GET_BIO_INFO_ERROR'
 
 // Action creators
+
+export const storeAggregators = (payload: any) => ({
+  type: AGGREGATORS_STORE,
+  payload
+})
 
 export const storeOpportunities = (payload: any) => ({
   type: OPPORTUNITIES_STORE,

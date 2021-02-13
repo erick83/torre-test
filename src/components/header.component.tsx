@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header: React.FC<any> = (props: any) => {
+const HeaderComponent: React.FC<any> = (props: any) => {
   const classes = useStyles()
   return (
     <React.Fragment>
@@ -33,4 +33,4 @@ const Header: React.FC<any> = (props: any) => {
   )
 }
 
-export default Header
+export default HeaderComponent

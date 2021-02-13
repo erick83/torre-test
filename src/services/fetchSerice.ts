@@ -29,16 +29,6 @@ export const post = (path: string = '', { qs, body }: { qs?: any, body?: any } =
     return fetchBase(qs ? path + concatQs(qs) : path, {method, body})
 }
 
-// export const put = (path = '', body, headers) => {
-//     const method = 'put'
-//     return fetchBase(path, {method, body, headers})
-// }
-
-// export const del = (path = '', headers) => {
-//     const method = 'delete'
-//     return fetchBase(path, {method, headers})
-// }
-
 function concatQs(qs: any): string {
     let str = ''
     for (const prop in qs) {

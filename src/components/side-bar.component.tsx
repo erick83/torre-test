@@ -1,11 +1,10 @@
 import React from 'react'
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles, Toolbar } from '@material-ui/core'
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import { Drawer, makeStyles, Toolbar } from '@material-ui/core'
 import { useSelector } from 'react-redux';
-import { IStore } from '../models/store';
+import { IStore } from '../models/store.interfaces';
+import { SideBarListComponent } from '.';
 
-const drawerWidth = 240;
+const drawerWidth = 340;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -29,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 const SideBar: React.FC<any> = (props: any) => {
   const classes = useStyles()
   const barData = useSelector((state: IStore) => state.opportunities?.search?.aggregators)
-  console.log(barData)
   return (
     <React.Fragment>
       <Drawer
@@ -41,14 +39,9 @@ const SideBar: React.FC<any> = (props: any) => {
       >
         <Toolbar />
         <div className={classes.drawerContainer}>
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          {barData ? (
+            <SideBarListComponent data={barData} />
+          ) : (<div>Loading</div>)}
         </div>
       </Drawer>
     </React.Fragment>
