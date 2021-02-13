@@ -1,31 +1,19 @@
 import { get, post } from '../services/fetchSerice'
 import { storeBios } from './bios/actions'
-import { storeAggregators, storeOpportunities } from './opportunities/actions'
-
-interface IPostQuerySearch {
-  size: number
-  offset: number
-  aggregate?: boolean
-}
+import { storeAggregators, storeAggregatorsBody, storeOpportunities } from './opportunities/actions'
+import { IPostQuerySearch } from '../models/api.interfaces'
 
 const defaultQs: IPostQuerySearch = {
-  size: 0,
+  size: 10,
   offset: 0,
   aggregate: true,
 }
 
-export const getUsername = (username: string) => async (dispatch: (t: any) => void) => {
-  // dispatch({ type: LOGIN_START })
-  // dispatch(requestPending())
-
+export const getUsername = (username: string = '') => async (dispatch: (t: any) => void) => {
   try {
       const results = await get(`bios/${username}`)
       dispatch(storeBios(results))
   } catch (error) {
-      // dispatch(loginError(error.message))
-      // dispatch(requestError())
-
-      // dispatch(addAlertMessage(error))
   }
 }
 
@@ -41,11 +29,13 @@ export const getAggregates = (query: IPostQuerySearch = defaultQs, body: object 
   const qs: IPostQuerySearch = {
     ...query,
     aggregate: true,
+    size: 0
   }
 
   try {
     const results = await post('opportunities/', {qs, body})
     dispatch(storeAggregators(results))
+    dispatch(storeAggregatorsBody({ body }))
   } catch (error) {
   }
 }

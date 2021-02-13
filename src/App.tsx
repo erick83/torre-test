@@ -1,26 +1,19 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
-import { CssBaseline, ThemeProvider } from '@material-ui/core'
-// import CssBaseline from '@material-ui/core/CssBaseline'
+import { CssBaseline } from '@material-ui/core'
 
 import * as Components from './pages'
-// import myTheme from '../styles/theme'
-// import '../styles/globals.scss'
-
-// export interface IMyApp {
-//   Component: React.FC
-//   pageProps: any
-// }
 
 const MyApp: React.FC<any> = (props) => {
-
   return (
     <React.Fragment>
       <CssBaseline />
       <Switch>
-        <Route path="">
+        <Route path="/" exact>
             <Components.Home />
+        </Route>
+        <Route path="/bio/:id">
+            <Components.Bio />
         </Route>
       </Switch>
     </React.Fragment>

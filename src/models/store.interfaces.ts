@@ -1,5 +1,5 @@
 export interface IStore {
-  bios?: IOpportunities
+  bios?: any
   opportunities?: IOpportunities
   people?: any
 }
@@ -15,6 +15,8 @@ export interface IOpportunitiesData {
   results?: any[]
   size?: number
   total?: number
+  query?: any
+  body?: any
 }
 
 export interface IAggregators {

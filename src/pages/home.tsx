@@ -18,7 +18,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     dispatch(getAggregates())
-  })
+  }, [])
 
   return (
     <div>

@@ -5,7 +5,11 @@ async function fetchBase (path: string, opt: RequestInit) {
 
     const options: RequestInit = {
         method: opt.method,
-        headers,
+        headers
+    }
+
+    if (opt.body) {
+        options.body = JSON.stringify(opt.body)
     }
 
     try {

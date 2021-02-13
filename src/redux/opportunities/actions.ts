@@ -1,21 +1,23 @@
-export const AGGREGATORS_STORE = 'AGGREGATORS STORE'
-export const OPPORTUNITIES_STORE = 'OPPORTUNITIES STORE'
-// export const LOGIN_SUCCESS = 'BIO _LOGIN_SUCCESS'
-// export const LOGIN_ERROR = 'BIO_LOGIN_ERROR'
-// export const LOAD_SESION = 'BIO_LOAD_SESION'
+import { IOpportunitiesData } from "../../models/store.interfaces"
 
-// export const GET_BIO_INFO_START = 'GET_BIO_INFO_START'
-// export const GET_BIO_INFO_SUCCESS = 'GET_BIO_INFO_SUCCESS'
-// export const GET_BIO_INFO_ERROR = 'GET_BIO_INFO_ERROR'
+export const AGGREGATORS_STORE = 'AGGREGATORS STORE'
+export const AGGREGATORS_BODY_STORE = 'AGGREGATORS BODY STORE'
+export const OPPORTUNITIES_STORE = 'OPPORTUNITIES STORE'
+export const OPPORTUNITIES_BODY_STORE = 'OPPORTUNITIES BODY STORE'
 
 // Action creators
 
-export const storeAggregators = (payload: any) => ({
+export const storeAggregators = (payload: IOpportunitiesData) => ({
   type: AGGREGATORS_STORE,
   payload
 })
 
-export const storeOpportunities = (payload: any) => ({
+export const storeAggregatorsBody = (payload: { body: any }) => ({
+  type: AGGREGATORS_BODY_STORE,
+  payload
+})
+
+export const storeOpportunities = (payload: IOpportunitiesData) => ({
   type: OPPORTUNITIES_STORE,
   payload
 })

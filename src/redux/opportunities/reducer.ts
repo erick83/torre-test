@@ -1,8 +1,8 @@
 import { IOpportunities, IOpportunitiesData } from "../../models/store.interfaces";
-import { AGGREGATORS_STORE, OPPORTUNITIES_STORE } from "./actions";
+import { AGGREGATORS_STORE, AGGREGATORS_BODY_STORE, OPPORTUNITIES_STORE } from "./actions";
 
 const initialState: IOpportunities = {
-  search: {}
+  search: {},
 }
 
 export default function mainReducer(state: IOpportunities = initialState, action: { type: string, payload: IOpportunitiesData }) {
@@ -13,9 +13,21 @@ export default function mainReducer(state: IOpportunities = initialState, action
         ...state,
         search: {
           ...payload,
-          results: state.search?.results
+          results: {
+            ...state.search?.results
+          }
         }
       }
+
+      case AGGREGATORS_BODY_STORE:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          ...payload,
+        }
+      }
+
     case OPPORTUNITIES_STORE:
       return {
         ...state,

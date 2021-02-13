@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import { CircularProgress, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core'
-
-import { IAggregators, IAggregatorsType } from '../models/store.interfaces';
-import { aggTypesStringFormat } from '../services/utils';
-import { Autocomplete } from '@material-ui/lab';
 import Fuse from 'fuse.js';
+import { CircularProgress, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core'
+import { Autocomplete } from '@material-ui/lab';
+
+import { IAggregators, IAggregatorsType, IStore } from '../models/store.interfaces';
+import { aggTypesStringFormat } from '../services/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { IPostQuerySearch } from '../models/api.interfaces';
+import { getAggregates } from '../redux/api-thunk';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,15 +36,25 @@ const useStyles = makeStyles((theme) => ({
 
 const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const queryString: IPostQuerySearch = useSelector((state: IStore) => ({
+    offset: state.opportunities?.search?.offset,
+    size: state.opportunities?.search?.size,
+  }))
+
   const [organizationValue, setorganizationValue] = useState<string>('')
   const [organizations, setorganizations] = useState<IAggregatorsType[]>(getTopOrganizations(data.organization))
   const [organizationOpen, setorganizationOpen] = useState(false)
   const organizationFuse = new Fuse(data?.organization || [], { includeScore: false, keys: ['value', 'total'] })
   const organizationLoading = organizationOpen && organizations.length === 0;
 
-  function click(section: string, value: IAggregatorsType | undefined) {
+  function click(section: string, item: IAggregatorsType | undefined) {
     return () => {
-      console.log(section, value)
+      dispatch(getAggregates(queryString, {
+        [section]: {
+          code: item?.value
+        }
+      }))
     }
   }
 
@@ -101,6 +114,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       <ListItem button className={classes.section}>
         <ListItemText primary="Organization" disableTypography={true}/>
       </ListItem>
+
       <Autocomplete
         options={organizations}
         loading={organizationLoading}
