@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex'
   },
   media: {
-    width: 400,
-    height: 300
+    width: 420,
+    height: 310
   },
   title: {
     width: '70%',
-    paddingLeft: theme.spacing(4)
+    textAlign: 'center',
   },
   strengthsPaper: {
     flexWrap: 'wrap',
@@ -30,9 +30,15 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
     margin: 0,
   },
+  chipContainer: {
+    padding: 0
+  },
   chip: {
     margin: theme.spacing(0.5),
   },
+  sectionTitle: {
+    marginTop: theme.spacing(3),
+  }
 }));
 
 const PostTitleComponent: React.FC<TPostTitleComponent> = (props) => {
@@ -50,16 +56,15 @@ const PostTitleComponent: React.FC<TPostTitleComponent> = (props) => {
       />
       <CardContent className={classes.title}>
         <Typography gutterBottom variant="h5" component="h2">{objective}</Typography>
-        <Typography gutterBottom variant="h6" component="h3">{`${snakeTypesStringParse(commitment.code)} - ${snakeTypesStringParse(opportunity)}`}</Typography>
-        <Typography gutterBottom variant="body1" component="h6">Skills and experience needed</Typography>
-        <Paper component="ul" elevation={0}>
+        <Typography gutterBottom variant="body1" component="h3">{`${snakeTypesStringParse(commitment.code)} - ${snakeTypesStringParse(opportunity)}`}</Typography>
+        <Typography variant="body1" component="h6" className={classes.sectionTitle}>Skills and experience needed</Typography>
+        <Paper component="ul" elevation={0} className={classes.chipContainer}>
           {xp.map((str, key: number) => {
             return (
               <li className={classes.strengthsPaper} key={key}>
                 <Typography gutterBottom variant="body2" component="p">{str.text}</Typography>
                 {str.names.map((name: string, key: number) => (<Chip key={key} label={name} className={classes.chip} />))}
               </li>
-
             )
           })}
         </Paper>

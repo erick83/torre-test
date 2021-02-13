@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Card, Container, makeStyles, Toolbar } from '@material-ui/core'
 
-import { HeaderComponent } from '../components'
+import { HeaderComponent, PostTitleComponent, PostBodyComponent } from '../components'
 import { getOpportunitie } from '../redux/api-thunk'
 import { useParams } from 'react-router-dom'
 import { IStore } from '../models/store.interfaces'
-import PostTitleComponent from '../components/post/post-title.component'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,9 +40,10 @@ const Opportunities: React.FC = () => {
       <HeaderComponent />
       <Toolbar />
       {post.attachments ? (
-        <Container maxWidth='lg' className={classes.container}>
+        <Container maxWidth='md' className={classes.container}>
           <Card className={classes.card}>
             <PostTitleComponent {...post} />
+            <PostBodyComponent {...post} />
           </Card>
         </Container>
       ) : <div>Loading</div>}
