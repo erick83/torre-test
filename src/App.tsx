@@ -15,6 +15,9 @@ const MyApp: React.FC<any> = (props) => {
         <Route path="/bio/:id">
             <Components.Bio />
         </Route>
+        <Route path="/post/:id">
+            <Components.Opportunities />
+        </Route>
       </Switch>
     </React.Fragment>
   )

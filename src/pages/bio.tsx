@@ -40,9 +40,9 @@ const Bio: React.FC = () => {
       <Container maxWidth={false} className={classes.container}>
         {bio.person ? (
           <div className={classes.wrapper}>
-            <PersonComponent person={bio.person} interests={bio.interests} />
-            <SkillsComponent strengths={bio.strengths} languages={bio.languages} />
-            <ResumeComponent jobs={bio.jobs} />
+            <PersonComponent {...bio} />
+            <SkillsComponent {...bio} />
+            <ResumeComponent {...bio} />
           </div>
         ) : ''}
       </Container>

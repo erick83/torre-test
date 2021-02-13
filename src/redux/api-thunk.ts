@@ -1,6 +1,6 @@
 import { get, post } from '../services/fetchSerice'
 import { storeBios } from './bios/actions'
-import { storeAggregators, storeAggregatorsBody, storeOpportunities } from './opportunities/actions'
+import { storeAggregators, storeAggregatorsBody, storeOpportunitie, storeOpportunities  } from './opportunities/actions'
 import { IPostQuerySearch } from '../models/api.interfaces'
 
 const defaultQs: IPostQuerySearch = {
@@ -17,10 +17,10 @@ export const getUsername = (username: string = '') => async (dispatch: (t: any) 
   }
 }
 
-export const getOpportunitie = (id: string) => async (dispatch: (t: any) => void) => {
+export const getOpportunitie = (id: string = '') => async (dispatch: (t: any) => void) => {
   try {
     const results = await get(`opportunities/${id}`)
-    // dispatch(storeOpportunitie(results))
+    dispatch(storeOpportunitie(results))
   } catch (error) {
   }
 }
