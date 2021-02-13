@@ -1,17 +1,16 @@
 async function fetchBase (path: string, opt: RequestInit) {
     const url: RequestInfo = new Request(new URL(path, process.env.REACT_APP_API_URL as string).toString())
-    // const headers = new Headers(opt.headers);
-
-    // headers.append('Content-Type', 'application/json')
+    const headers = new Headers();
+    headers.append('Content-Type', 'pplication/json;charset=UTF-8')
 
     const options: RequestInit = {
         method: opt.method,
-        // headers,
+        headers,
     }
 
     try {
         const response = await fetch(url, options)
-        console.log(response)
+        return response.json()
     } catch (error) {
         // Catch the error, do something and dispatch next catch
         console.error(error)
@@ -20,14 +19,14 @@ async function fetchBase (path: string, opt: RequestInit) {
 
 }
 
-export const get = (path:string = '', qs: string = '') => {
+export const get = (path:string = '', qs?: any | undefined) => {
     const method = 'get'
-    return fetchBase(path, {method, body: qs})
+    return fetchBase(qs ? path + concatQs(qs) : path, {method})
 }
 
-export const post = (path: string = '', body: any, headers: any) => {
+export const post = (path: string = '', { qs, body }: { qs?: any, body?: any } = {}) => {
     const method = 'post'
-    return fetchBase(path, {method, body, headers})
+    return fetchBase(qs ? path + concatQs(qs) : path, {method, body})
 }
 
 // export const put = (path = '', body, headers) => {
@@ -39,3 +38,12 @@ export const post = (path: string = '', body: any, headers: any) => {
 //     const method = 'delete'
 //     return fetchBase(path, {method, headers})
 // }
+
+function concatQs(qs: any): string {
+    let str = ''
+    for (const prop in qs) {
+        const p = `${prop}=${qs[prop]}`
+        str+= (str === '') ? '?'+p : '&'+p
+    }
+    return str
+}

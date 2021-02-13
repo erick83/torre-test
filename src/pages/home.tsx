@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { HeaderComponent, SideBarComponent } from '../components'
+import { getUsername, getOpportunities } from '../redux/api-thunk'
 
 const Home: React.FC = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getUsername('ericklopez'))
+  })
+  useEffect(() => {
+    dispatch(getOpportunities())
+  })
+
   return (
     <div>
-      Home
+      <HeaderComponent />
+      <SideBarComponent />
     </div>
   )
 }

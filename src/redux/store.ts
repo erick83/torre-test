@@ -2,19 +2,17 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-export interface IEmedState {
-}
+import biosReducer from './bios/reducer'
+import opportunitiesReducer from './opportunities/reducer'
 
-const initialState = {}
-const store: any = (preloadedState = initialState) => {
-  const reducers = combineReducers({
-  })
+const state = combineReducers({
+  bios: biosReducer,
+  opportunities: opportunitiesReducer,
+})
 
-  return createStore(
-    reducers,
-    preloadedState,
-    composeWithDevTools(applyMiddleware(thunk))
-  )
-}
+const store = createStore(
+  state,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 export default store
