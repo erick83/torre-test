@@ -13,7 +13,7 @@ const MyApp: React.FC<any> = (props) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      {loader && <LoaderComponent />}
+      {loader ? <LoaderComponent /> : ''}
       <Switch>
         <Route path="/" exact>
             <Components.Home />

@@ -7,16 +7,16 @@ interface ISelector {
 
 const selector: ISelector = {
   type: (item) => ({ type: { code: item.value }}),
+  status: (item) => ({ status: { code: item.value }}),
   remote: (item) => ({ remote: { term: item.value === 'yes' }}),
   organization: (item) => ({ organization: {term: item.value }}),
   skill: (item) => ({ skill: { term: item.value, experience: "potential-to-develop" }}),
-  status: (item) => ({ status: {code: item.value }}),
   // {compensationrange: {minAmount: 41, maxAmount: 80, currency: "USD$", periodicity: "hourly"}}
 }
 
 export function parseFilterBody(section: string, item: IAggregatorsType | undefined, currentBody: any) {
-  console.log('currentBody', currentBody)
   const body = item ? selector[section](item) : {}
+
   if (isEmpty(currentBody)) {
     return body
   }
@@ -30,5 +30,4 @@ export function parseFilterBody(section: string, item: IAggregatorsType | undefi
   return {
     and: [currentBody, body]
   }
-
 }

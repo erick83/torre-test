@@ -32,12 +32,13 @@ export const getOpportunitie = (id: string = '') => async (dispatch: (t: any) =>
   }
 }
 
-export const getAggregates = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
+export const getAggregates = (body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
-    ...query,
+    ...defaultQs,
     aggregate: true,
     size: 0
   }
+
   dispatch(showLoader())
   try {
     const results = await post('opportunities/', {qs, body})

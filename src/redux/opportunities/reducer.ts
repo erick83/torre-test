@@ -1,5 +1,5 @@
-import { isArray } from 'lodash'
-import { IOpportunities, IOpportunitiesData } from "../../models/store.interfaces";
+import { isNil, isEmpty } from 'lodash'
+import { IOpportunities } from "../../models/store.interfaces";
 import { AGGREGATORS_STORE, AGGREGATORS_BODY_STORE, OPPORTUNITIES_STORE, OPPORTUNITIE_STORE } from "./actions";
 
 const initialState: IOpportunities = {
@@ -22,7 +22,11 @@ export default function mainReducer(state: IOpportunities = initialState, action
       }
 
     case AGGREGATORS_BODY_STORE:
-      const body = payload.and ? payload : { and: [payload] }
+      let body = undefined
+
+      if (!isNil(payload) && !isEmpty(payload)) {
+        body = payload.and ? payload : { and: [payload] }
+      }
 
       return {
         ...state,

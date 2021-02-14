@@ -41,7 +41,7 @@ const SideBar: React.FC<any> = (props: any) => {
         <div className={classes.drawerContainer}>
           {barData ? (
             <SideBarListComponent data={barData} />
-          ) : (<div>Loading</div>)}
+          ) : (<div></div>)}
         </div>
       </Drawer>
     </React.Fragment>

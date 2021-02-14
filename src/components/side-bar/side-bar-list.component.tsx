@@ -53,8 +53,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   function click(section: string, item: IAggregatorsType | undefined) {
     return () => {
       const body = parseFilterBody(section, item, currentBody)
-      console.log(body, section, item, currentBody)
-      dispatch(getAggregates(queryString, body))
+      dispatch(getAggregates(body))
     }
   }
 

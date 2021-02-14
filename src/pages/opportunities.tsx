@@ -46,7 +46,7 @@ const Opportunities: React.FC = () => {
             <PostBodyComponent {...post} />
           </Card>
         </Container>
-      ) : <div>Loading</div>}
+      ) : <div></div>}
     </div>
   )
 }
