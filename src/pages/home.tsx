@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Container, makeStyles, Toolbar } from '@material-ui/core'
 
 import { HeaderComponent, SearchComponent, SideBarComponent } from '../components'
-import { getAggregates } from '../redux/api-thunk'
+import { getOpportunities } from '../redux/api-thunk'
 
 const drawerWidth = 340;
 const useStyles = makeStyles(() => ({
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const classes = useStyles()
 
   useEffect(() => {
-    dispatch(getAggregates())
+    dispatch(getOpportunities())
   }, [])
 
   return (

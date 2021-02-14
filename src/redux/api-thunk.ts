@@ -33,6 +33,17 @@ export const getOpportunitie = (id: string = '') => async (dispatch: (t: any) =>
   }
 }
 
+export const getPeopple = (qs: IPostQuerySearch = defaultQs, body: any = {}) => async (dispatch: (t: any) => void) => {
+  dispatch(showLoader())
+  try {
+    const results = await post('peopple/', {qs, body})
+    // dispatch(storePeopple(results))
+  } catch (error) {
+  } finally {
+    dispatch(hideLoader())
+  }
+}
+
 export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
   getAggregates(body)(dispatch)
   if (isNil(body) || isEmpty(body)) {
@@ -42,7 +53,7 @@ export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: any 
   }
 }
 
-export const getAggregates = (body: any = undefined) => async (dispatch: (t: any) => void) => {
+const getAggregates = (body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...defaultQs,
     aggregate: true,
@@ -62,7 +73,7 @@ export const getAggregates = (body: any = undefined) => async (dispatch: (t: any
   }
 }
 
-export const getResults = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
+const getResults = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...query,
     aggregate: false,
@@ -72,17 +83,6 @@ export const getResults = (query: IPostQuerySearch = defaultQs, body: any = unde
   try {
     const results = await post('opportunities/', {qs, body})
     dispatch(storeOpportunities(results))
-  } catch (error) {
-  } finally {
-    dispatch(hideLoader())
-  }
-}
-
-export const getPeopple = (qs: IPostQuerySearch = defaultQs, body: any = {}) => async (dispatch: (t: any) => void) => {
-  dispatch(showLoader())
-  try {
-    const results = await post('peopple/', {qs, body})
-    // dispatch(storePeopple(results))
   } catch (error) {
   } finally {
     dispatch(hideLoader())
