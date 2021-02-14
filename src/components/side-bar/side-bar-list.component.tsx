@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   section: {
     padding: 0,
     paddingLeft: theme.spacing(2),
+    paddingTop: theme.spacing(2),
   },
   sectionText: {
     fontSize: 14,
@@ -33,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   nestedText: {
     fontSize: 14,
   },
+  autocomplete: {
+    width: 300,
+    paddingLeft: theme.spacing(4)
+  }
 }));
 
 const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
@@ -76,9 +81,10 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         <ListItemText primary="Status" className={classes.sectionText} disableTypography={true} />
       </ListItem>
       <List className={classes.nestedList}>
-        {data.status ? data.status.map((item: IAggregatorsType, key: number) => {
+        {data.status ? data.status.map((item: IAggregatorsType, key: number, arr: any[]) => {
+          const disabled = arr.length === 1
           return (
-              <ListItem key={key} button className={classes.nestedItem} onClick={click('status', item)}>
+              <ListItem key={key} button className={classes.nestedItem} onClick={click('status', item)} disabled={disabled}>
                 <ListItemText primary={aggTypesStringFormat(item)} className={classes.nestedText} disableTypography={true}/>
               </ListItem>
             )
@@ -89,9 +95,10 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         <ListItemText primary="Type of job" disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
-        {data.type ? data.type.map((item: IAggregatorsType, key: number) => {
+        {data.type ? data.type.map((item: IAggregatorsType, key: number, arr: any[]) => {
+          const disabled = arr.length === 1
           return (
-              <ListItem key={key} button className={classes.nestedItem} onClick={click('type', item)}>
+              <ListItem key={key} button className={classes.nestedItem} onClick={click('type', item)} disabled={disabled}>
                 <ListItemText primary={aggTypesStringFormat(item)} className={classes.nestedText} disableTypography={true}/>
               </ListItem>
             )
@@ -102,7 +109,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         <ListItemText primary="Location" disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
-        <ListItem button className={classes.nestedItem} onClick={click('remote', data?.remote?.find(i => i.value === 'yes'))}>
+        <ListItem button className={classes.nestedItem} onClick={click('remote', data?.remote?.find(i => i.value === 'yes'))} disabled={data?.remote?.length === 1}>
           <ListItemText primary="Remote - " secondary={data?.remote?.find(i => i.value === 'yes')?.total} className={classes.nestedText} disableTypography={true}/>
         </ListItem>
       </List>
@@ -122,7 +129,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         inputValue={organizationValue}
         getOptionSelected={(option, value) => option.value === value.value}
         getOptionLabel={(option: IAggregatorsType) => `${option.value} - ${option.total}`}
-        style={{ width: 300 }}
+        className={classes.autocomplete}
         renderInput={(params: any) => <TextField
           {...params}
           label="Organization"
@@ -145,7 +152,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       <Autocomplete
         options={data?.compensationrange || []}
         getOptionLabel={(option: IAggregatorsType) => option.value}
-        style={{ width: 300 }}
+        className={classes.autocomplete}
         renderInput={(params: any) => <TextField {...params} label="Combo box" variant="outlined" />}
       />
 
