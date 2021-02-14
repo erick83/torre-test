@@ -1,3 +1,4 @@
+import { isArray } from 'lodash'
 import { IOpportunities, IOpportunitiesData } from "../../models/store.interfaces";
 import { AGGREGATORS_STORE, AGGREGATORS_BODY_STORE, OPPORTUNITIES_STORE, OPPORTUNITIE_STORE } from "./actions";
 
@@ -6,7 +7,7 @@ const initialState: IOpportunities = {
   selected: {},
 }
 
-export default function mainReducer(state: IOpportunities = initialState, action: { type: string, payload: IOpportunitiesData }) {
+export default function mainReducer(state: IOpportunities = initialState, action: { type: string, payload: any }) {
   const { type, payload } = action
   switch (type) {
     case AGGREGATORS_STORE:
@@ -20,12 +21,14 @@ export default function mainReducer(state: IOpportunities = initialState, action
         }
       }
 
-      case AGGREGATORS_BODY_STORE:
+    case AGGREGATORS_BODY_STORE:
+      const body = payload.and ? payload : { and: [payload] }
+
       return {
         ...state,
         search: {
           ...state.search,
-          ...payload,
+          body,
         }
       }
 

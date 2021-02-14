@@ -13,7 +13,7 @@ export const storeAggregators = (payload: IOpportunitiesData) => ({
   payload
 })
 
-export const storeAggregatorsBody = (payload: { body: any }) => ({
+export const storeAggregatorsBody = (payload: any) => ({
   type: AGGREGATORS_BODY_STORE,
   payload
 })

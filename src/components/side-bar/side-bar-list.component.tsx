@@ -3,11 +3,12 @@ import Fuse from 'fuse.js';
 import { CircularProgress, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab';
 
-import { IAggregators, IAggregatorsType, IStore } from '../models/store.interfaces';
-import { aggTypesStringFormat } from '../services/utils';
+import { IAggregators, IAggregatorsType, IStore } from '../../models/store.interfaces';
+import { aggTypesStringFormat } from '../../services/utils';
 import { useDispatch, useSelector } from 'react-redux';
-import { IPostQuerySearch } from '../models/api.interfaces';
-import { getAggregates } from '../redux/api-thunk';
+import { IPostQuerySearch } from '../../models/api.interfaces';
+import { getAggregates } from '../../redux/api-thunk';
+import { parseFilterBody } from '../../services/parseFilters';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
     offset: state.opportunities?.search?.offset,
     size: state.opportunities?.search?.size,
   }))
+  const currentBody: any = useSelector((state: IStore) => state.opportunities?.search?.body)
 
   const [organizationValue, setorganizationValue] = useState<string>('')
   const [organizations, setorganizations] = useState<IAggregatorsType[]>(getTopOrganizations(data.organization))
@@ -50,9 +52,9 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
 
   function click(section: string, item: IAggregatorsType | undefined) {
     return () => {
-      dispatch(getAggregates(queryString, {
-        [section]: item
-      }))
+      const body = parseFilterBody(section, item, currentBody)
+      console.log(body, section, item, currentBody)
+      dispatch(getAggregates(queryString, body))
     }
   }
 
@@ -104,7 +106,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         <ListItemText primary="Location" disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
-        <ListItem button className={classes.nestedItem} onClick={click('type', data?.remote?.find(i => i.value === 'yes'))}>
+        <ListItem button className={classes.nestedItem} onClick={click('remote', data?.remote?.find(i => i.value === 'yes'))}>
           <ListItemText primary="Remote - " secondary={data?.remote?.find(i => i.value === 'yes')?.total} className={classes.nestedText} disableTypography={true}/>
         </ListItem>
       </List>

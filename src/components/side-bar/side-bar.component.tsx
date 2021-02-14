@@ -1,8 +1,8 @@
 import React from 'react'
 import { Drawer, makeStyles, Toolbar } from '@material-ui/core'
 import { useSelector } from 'react-redux';
-import { IStore } from '../models/store.interfaces';
-import { SideBarListComponent } from '.';
+import { IStore } from '../../models/store.interfaces';
+import { SideBarListComponent } from '../';
 
 const drawerWidth = 340;
 const useStyles = makeStyles((theme) => ({

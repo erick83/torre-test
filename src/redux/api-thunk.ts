@@ -32,7 +32,7 @@ export const getOpportunitie = (id: string = '') => async (dispatch: (t: any) =>
   }
 }
 
-export const getAggregates = (query: IPostQuerySearch = defaultQs, body: object = {}) => async (dispatch: (t: any) => void) => {
+export const getAggregates = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...query,
     aggregate: true,
@@ -42,14 +42,16 @@ export const getAggregates = (query: IPostQuerySearch = defaultQs, body: object 
   try {
     const results = await post('opportunities/', {qs, body})
     dispatch(storeAggregators(results))
-    dispatch(storeAggregatorsBody({ body }))
+    if (body) {
+      dispatch(storeAggregatorsBody(body))
+    }
   } catch (error) {
   } finally {
     dispatch(hideLoader())
   }
 }
 
-export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: object = {}) => async (dispatch: (t: any) => void) => {
+export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: any = {}) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...query,
     aggregate: false,
@@ -64,7 +66,7 @@ export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: obje
   }
 }
 
-export const getPeopple = (qs: IPostQuerySearch = defaultQs, body: object = {}) => async (dispatch: (t: any) => void) => {
+export const getPeopple = (qs: IPostQuerySearch = defaultQs, body: any = {}) => async (dispatch: (t: any) => void) => {
   dispatch(showLoader())
   try {
     const results = await post('peopple/', {qs, body})
