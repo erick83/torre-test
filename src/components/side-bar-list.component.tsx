@@ -51,9 +51,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   function click(section: string, item: IAggregatorsType | undefined) {
     return () => {
       dispatch(getAggregates(queryString, {
-        [section]: {
-          code: item?.value
-        }
+        [section]: item
       }))
     }
   }

@@ -1,4 +1,5 @@
 export interface IStore {
+  loader?: number
   bios?: any
   opportunities?: IOpportunities
   people?: any
