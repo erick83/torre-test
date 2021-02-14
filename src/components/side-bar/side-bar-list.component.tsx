@@ -7,7 +7,7 @@ import { IAggregators, IAggregatorsType, IStore } from '../../models/store.inter
 import { aggTypesStringFormat } from '../../services/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { IPostQuerySearch } from '../../models/api.interfaces';
-import { getAggregates } from '../../redux/api-thunk';
+import { getOpportunities } from '../../redux/api-thunk';
 import { parseFilterBody } from '../../services/parseFilters';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,10 +38,7 @@ const useStyles = makeStyles((theme) => ({
 const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const queryString: IPostQuerySearch = useSelector((state: IStore) => ({
-    offset: state.opportunities?.search?.offset,
-    size: state.opportunities?.search?.size,
-  }))
+  const queryString: IPostQuerySearch = { offset: 0, size: 20 }
   const currentBody: any = useSelector((state: IStore) => state.opportunities?.search?.body)
 
   const [organizationValue, setorganizationValue] = useState<string>('')
@@ -53,7 +50,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   function click(section: string, item: IAggregatorsType | undefined) {
     return () => {
       const body = parseFilterBody(section, item, currentBody)
-      dispatch(getAggregates(body))
+      dispatch(getOpportunities(queryString, body))
     }
   }
 

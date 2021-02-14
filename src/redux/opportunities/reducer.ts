@@ -3,7 +3,14 @@ import { IOpportunities } from "../../models/store.interfaces";
 import { AGGREGATORS_STORE, AGGREGATORS_BODY_STORE, OPPORTUNITIES_STORE, OPPORTUNITIE_STORE } from "./actions";
 
 const initialState: IOpportunities = {
-  search: {},
+  search: {
+    aggregators: {},
+    offset: 0,
+    results: [],
+    size: 0,
+    body: {},
+    total: 0,
+  },
   selected: {},
 }
 
@@ -14,10 +21,9 @@ export default function mainReducer(state: IOpportunities = initialState, action
       return {
         ...state,
         search: {
-          ...payload,
-          results: {
-            ...state.search?.results
-          }
+          ...state.search,
+          aggregators: payload.aggregators,
+          total: payload.total,
         }
       }
 
@@ -32,7 +38,7 @@ export default function mainReducer(state: IOpportunities = initialState, action
         ...state,
         search: {
           ...state.search,
-          body,
+          body: body,
         }
       }
 
@@ -40,8 +46,10 @@ export default function mainReducer(state: IOpportunities = initialState, action
       return {
         ...state,
         search: {
-          ...state,
+          ...state.search,
           results: payload?.results,
+          offset: payload?.offset,
+          size: payload?.size,
         }
       }
 

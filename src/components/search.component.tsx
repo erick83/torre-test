@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { capitalize, difference } from 'lodash'
 import { makeStyles, TextField } from '@material-ui/core'
-import { getAggregates } from '../redux/api-thunk';
+import { getOpportunities } from '../redux/api-thunk';
 import { Autocomplete } from '@material-ui/lab'
 
 import { IStore } from '../models/store.interfaces'
@@ -22,13 +22,15 @@ const SearchComponent: React.FC<any> = (props: any) => {
 
   function change(event: any, newValue: string[]) {
     if (newValue.length === 0) {
-      dispatch(getAggregates({}))
+      dispatch(getOpportunities({ offset: 0, size: 20 }, {}))
       return
     }
 
     const removeKey = values?.indexOf(difference(values, newValue)[0])
     const newBody = body.and.filter((item: any, key: number) => key !== removeKey)
-    dispatch(getAggregates(newBody.length > 1 ? { and: newBody } : newBody[0]))
+    const bodyPayload = newBody.length > 1 ? { and: newBody } : newBody[0]
+
+    dispatch(getOpportunities({ offset: 0, size: 20 }, bodyPayload))
   }
 
   useEffect(() => {

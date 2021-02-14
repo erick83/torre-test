@@ -18,7 +18,7 @@ export const storeAggregatorsBody = (payload: any) => ({
   payload
 })
 
-export const storeOpportunities = (payload: IOpportunitiesData) => ({
+export const storeOpportunities = (payload: IOpportunitiesData | undefined) => ({
   type: OPPORTUNITIES_STORE,
   payload
 })

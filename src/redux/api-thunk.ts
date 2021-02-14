@@ -1,3 +1,4 @@
+import { isNil, isEmpty } from 'lodash'
 import { get, post } from '../services/fetchSerice'
 import { storeBios } from './bios/actions'
 import { storeAggregators, storeAggregatorsBody, storeOpportunitie, storeOpportunities  } from './opportunities/actions'
@@ -32,6 +33,15 @@ export const getOpportunitie = (id: string = '') => async (dispatch: (t: any) =>
   }
 }
 
+export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
+  getAggregates(body)(dispatch)
+  if (isNil(body) || isEmpty(body)) {
+    dispatch(storeOpportunities({}))
+  } else {
+    getResults(query, body)(dispatch)
+  }
+}
+
 export const getAggregates = (body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...defaultQs,
@@ -52,11 +62,12 @@ export const getAggregates = (body: any = undefined) => async (dispatch: (t: any
   }
 }
 
-export const getOpportunities = (query: IPostQuerySearch = defaultQs, body: any = {}) => async (dispatch: (t: any) => void) => {
+export const getResults = (query: IPostQuerySearch = defaultQs, body: any = undefined) => async (dispatch: (t: any) => void) => {
   const qs: IPostQuerySearch = {
     ...query,
     aggregate: false,
   }
+
   dispatch(showLoader())
   try {
     const results = await post('opportunities/', {qs, body})
