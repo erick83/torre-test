@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { uniqueId } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { Container, makeStyles, Toolbar } from '@material-ui/core'
 
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
           <SearchComponent />
           <div className={classes.cardContainer}>
             {results && results.map((result) => {
-              return <CardComponent data={result} />
+              return <CardComponent data={result} key={uniqueId('card')}/>
             })}
           </div>
         </Container>

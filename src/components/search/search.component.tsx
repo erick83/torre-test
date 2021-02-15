@@ -76,11 +76,14 @@ function parseSearchFromBody(body: any) {
       case 'remote':
         return item.remote.term ? 'Remote' : 'No Remote'
       case 'organization':
-        return `Organization - ${capitalize(item.organization.term)}}`
+        return `Organization - ${capitalize(item.organization.term)}`
       case 'skill':
         return `Skill - ${capitalize(item.skill.term)}`
       case 'status':
         return `Status - ${capitalize(item.status.code)}`
+      case 'compensationrange':
+        const { currency, minAmount, maxAmount, periodicity } = item.compensationrange
+        return `Compensation - ${currency} ${minAmount} - ${maxAmount}/${periodicity}`
       default:
         return ''
     }

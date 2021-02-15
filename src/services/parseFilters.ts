@@ -11,23 +11,37 @@ const selector: ISelector = {
   remote: (item) => ({ remote: { term: item.value === 'yes' }}),
   organization: (item) => ({ organization: {term: item.value }}),
   skill: (item) => ({ skill: { term: item.value, experience: "potential-to-develop" }}),
-  // {compensationrange: {minAmount: 41, maxAmount: 80, currency: "USD$", periodicity: "hourly"}}
+  compensationrange: (item) => {
+    const compArr = item.value.split(/ |-|\//g)
+    return { compensationrange: {minAmount: compArr[1], maxAmount: compArr[2], currency: compArr[0], periodicity: compArr[3] }}
+  }
 }
 
 export function parseFilterBody(section: string, item: IAggregatorsType | undefined, currentBody: any) {
-  const body = item ? selector[section](item) : {}
+  let body = {}
+  let newCurrentBody
+  if (item) {
+    body = selector[section](item) || {}
+    newCurrentBody = currentBody
+  } else {
+    newCurrentBody = (currentBody && currentBody.any && currentBody.any.filter((item: any) => !item[section])) || {}
+  }
 
-  if (isEmpty(currentBody)) {
+  if (isEmpty(newCurrentBody)) {
     return body
   }
 
   if (currentBody.and) {
     return {
-      and: [...currentBody.and, body]
+      and: [...newCurrentBody.and, body]
     }
   }
 
   return {
-    and: [currentBody, body]
+    and: [newCurrentBody, body]
   }
+}
+
+export function compensationrangeToString(compensation: any) {
+  return `${compensation.currency} ${compensation.minAmount}-${compensation.maxAmount}/${compensation.periodicity}`
 }

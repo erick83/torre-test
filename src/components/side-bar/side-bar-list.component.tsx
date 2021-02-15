@@ -8,7 +8,8 @@ import { aggTypesStringFormat } from '../../services/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { IPostQuerySearch } from '../../models/api.interfaces';
 import { getOpportunities } from '../../services/api-thunk';
-import { parseFilterBody } from '../../services/parseFilters';
+import { compensationrangeToString, parseFilterBody } from '../../services/parseFilters';
+import { isEmpty, isNil } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,12 +45,11 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const queryString: IPostQuerySearch = { offset: 0, size: 20 }
+  const organizationFuse = new Fuse(data?.organization || [], { includeScore: false, keys: ['value', 'total'] })
   const currentBody: any = useSelector((state: IStore) => state.opportunities?.search?.body)
-
   const [organizationValue, setorganizationValue] = useState<string>('')
   const [organizations, setorganizations] = useState<IAggregatorsType[]>(getTopOrganizations(data.organization))
   const [organizationOpen, setorganizationOpen] = useState(false)
-  const organizationFuse = new Fuse(data?.organization || [], { includeScore: false, keys: ['value', 'total'] })
   const organizationLoading = organizationOpen && organizations.length === 0;
 
   function click(section: string, item: IAggregatorsType | undefined) {
@@ -61,7 +61,8 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
 
   function change(section: string) {
     return (event: any, value: any) => {
-      console.log(section, value)
+      const body = parseFilterBody(section, value, currentBody)
+      dispatch(getOpportunities(queryString, body))
     }
   }
 
@@ -75,9 +76,37 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
     return data.sort((a, b) => b.total - a.total).slice(0, 20)
   }
 
+  function getAutocompleteValue(selector: string) {
+    if (isNil(currentBody) || isEmpty(currentBody)) {
+      return null
+    }
+
+    const currentItem = currentBody.and.find((item: any) => {
+      return item[selector]
+    })
+
+    let resp = null
+
+    switch (selector) {
+      case 'organization':
+        resp = organizations.find((item: IAggregatorsType) => {
+          if (!currentItem) {
+            return false
+          }
+          return item.value === currentItem?.organization?.term
+        })
+        break
+
+      default:
+        break
+    }
+
+    return resp || null
+  }
+
   return(
     <List className={classes.root}>
-      <ListItem button className={classes.section}>
+      <ListItem className={classes.section}>
         <ListItemText primary="Status" className={classes.sectionText} disableTypography={true} />
       </ListItem>
       <List className={classes.nestedList}>
@@ -91,7 +120,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         }) : ''}
       </List>
 
-      <ListItem button className={classes.section}>
+      <ListItem className={classes.section}>
         <ListItemText primary="Type of job" disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
@@ -105,7 +134,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         }) : ''}
       </List>
 
-      <ListItem button className={classes.section}>
+      <ListItem className={classes.section}>
         <ListItemText primary="Location" disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
@@ -114,11 +143,12 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         </ListItem>
       </List>
 
-      <ListItem button className={classes.section}>
+      <ListItem className={classes.section}>
         <ListItemText primary="Organization" disableTypography={true}/>
       </ListItem>
 
       <Autocomplete
+        value={getAutocompleteValue('organization')}
         options={organizations}
         loading={organizationLoading}
         open={organizationOpen}
@@ -146,16 +176,19 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
         />}
       />
 
-      <ListItem button className={classes.section}>
+      <ListItem className={classes.section}>
         <ListItemText primary="Compensation" disableTypography={true}/>
       </ListItem>
-      <Autocomplete
-        options={data?.compensationrange || []}
-        getOptionLabel={(option: IAggregatorsType) => option.value}
-        className={classes.autocomplete}
-        renderInput={(params: any) => <TextField {...params} label="Combo box" variant="outlined" />}
-      />
-
+      <List className={classes.nestedList}>
+        {data.compensationrange ? data.compensationrange.map((item: IAggregatorsType, key: number, arr: any[]) => {
+          const disabled = arr.length === 1
+          return (
+              <ListItem key={key} button className={classes.nestedItem} onClick={click('compensationrange', item)} disabled={disabled}>
+                <ListItemText primary={`${item.value} - ${item.total}`} className={classes.nestedText} disableTypography={true}/>
+              </ListItem>
+            )
+        }) : ''}
+      </List>
     </List>
   )
 }
