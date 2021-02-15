@@ -9,6 +9,12 @@ git clone <app name>
 heroku create <app name> -b https://github.com/mars/create-react-app-buildpack.git
 git add
 git commit -m "erick-lopez-test on Heroku"
+```
+
+Update .env vars with `REACT_APP_API_URL=http://localhost:3030/`
+For heroku use [https://devcenter.heroku.com/articles/config-vars](https://devcenter.heroku.com/articles/config-vars)
+
+```shell
 git push heroku master
 heroku open
 ```
@@ -21,6 +27,11 @@ See section about [create-react-app heroku zero configuration](https://blog.hero
 git clone <app name>
 cd <app name>
 npm i
+```
+
+Update .env vars with `REACT_APP_API_URL=http://localhost:3030/`
+
+```shell
 npm start
 ```
 

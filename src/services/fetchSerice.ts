@@ -1,5 +1,5 @@
 async function fetchBase (path: string, opt: RequestInit) {
-    const url: RequestInfo = new Request(new URL(path, process.env.REACT_APP_API_URL as string).toString())
+    const url: RequestInfo = new Request(new URL(path, `${process.env.REACT_APP_API_URL as string}api/`).toString())
     const headers = new Headers();
     headers.append('Content-Type', 'Application/json;charset=UTF-8')
 
