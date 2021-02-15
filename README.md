@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ```shell
 git clone <app name>
-heroku create -b https://github.com/mars/create-react-app-buildpack.git
+heroku create <app name> -b https://github.com/mars/create-react-app-buildpack.git
 git add
 git commit -m "erick-lopez-test on Heroku"
 git push heroku master
