@@ -30,11 +30,20 @@ const useStyles = makeStyles((theme) => ({
   body: {
     width: '90%',
   },
+  title: {
+    color: theme.palette.secondary.dark,
+    paddingTop: theme.spacing(0.7)
+  },
   locations: {
     display: 'flex',
     '& > *': {
       marginRight: theme.spacing(2)
     }
+  },
+  viewBotton: {
+    float: 'right',
+    fontWeight: 600,
+
   }
 }));
 
@@ -50,7 +59,7 @@ const CardComponent: React.FC<ICardComponent> = (props) => {
         })}
       </div>
       <div className={classes.body}>
-        <Typography gutterBottom variant="h6" component="h3">{objective}</Typography>
+        <Typography gutterBottom variant="h6" component="h3" className={classes.title}>{objective}</Typography>
         <Typography gutterBottom variant="body1" component="h6">{type}</Typography>
         {organizations.map((org: any, key: number) => {
           return <Typography gutterBottom key={key} variant="body1" component="h6">{org.name}</Typography>
@@ -66,7 +75,7 @@ const CardComponent: React.FC<ICardComponent> = (props) => {
             {compensationrangeToString(compensation.data)}
           </Typography>
         ) : ''}
-        <Button href={`/post/${id}`}>View</Button>
+        <Button href={`/post/${id}`} color="secondary" variant="outlined" className={classes.viewBotton}>View</Button>
       </div>
     </Paper>
   )

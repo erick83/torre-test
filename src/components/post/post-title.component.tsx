@@ -31,11 +31,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     margin: 'auto',
     textAlign: 'center',
-    background: `${theme.palette.background.paper}e`,
+    background: theme.palette.background.paper,
     borderRadius: theme.shape.borderRadius,
     width: 480,
     zIndex: theme.zIndex.drawer - 1,
     paddingBottom: '0 !important',
+  },
+  titleColor: {
+    color: theme.palette.secondary.dark,
   },
   strengthsPaper: {
     flexWrap: 'wrap',
@@ -69,7 +72,7 @@ const PostTitleComponent: React.FC<TPostTitleComponent> = (props) => {
       />
       <div className={classes.contentWrapper}>
         <CardContent className={classes.title}>
-          <Typography gutterBottom variant="h5" component="h2">{objective}</Typography>
+          <Typography gutterBottom variant="h5" component="h2" className={classes.titleColor}>{objective}</Typography>
           <Typography gutterBottom variant="body1" component="h3">{`${snakeTypesStringParse(commitment.code)} - ${snakeTypesStringParse(opportunity)}`}</Typography>
         </CardContent>
       </div>

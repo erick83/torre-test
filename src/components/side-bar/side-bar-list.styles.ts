@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
   },
   sectionText: {
-    fontSize: 14,
+    fontSize: 16,
+    color: theme.palette.secondary.dark,
   },
   nestedList: {
     padding: 0,

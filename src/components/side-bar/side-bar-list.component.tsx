@@ -92,7 +92,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       </List>
 
       <ListItem className={classes.section}>
-        <ListItemText primary="Type of job" disableTypography={true}/>
+        <ListItemText primary="Type of job" className={classes.sectionText} disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
         {data.type ? data.type.map((item: IAggregatorsType, key: number, arr: any[]) => {
@@ -106,7 +106,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       </List>
 
       <ListItem className={classes.section}>
-        <ListItemText primary="Location" disableTypography={true}/>
+        <ListItemText primary="Location" className={classes.sectionText} disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
         <ListItem button className={classes.nestedItem} onClick={click('remote', data?.remote?.find(i => i.value === 'yes'))} disabled={data?.remote?.length === 1}>
@@ -115,7 +115,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       </List>
 
       <ListItem className={classes.section}>
-        <ListItemText primary="Organization" disableTypography={true}/>
+        <ListItemText primary="Organization" className={classes.sectionText} disableTypography={true}/>
       </ListItem>
 
       <Autocomplete
@@ -149,7 +149,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
       />
 
       <ListItem className={classes.section}>
-        <ListItemText primary="Compensation" disableTypography={true}/>
+        <ListItemText primary="Compensation" className={classes.sectionText} disableTypography={true}/>
       </ListItem>
       <List className={classes.nestedList}>
         {data.compensationrange ? data.compensationrange.map((item: IAggregatorsType, key: number, arr: any[]) => {
