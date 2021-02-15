@@ -9,20 +9,33 @@ export interface TPostTitleComponent {
   commitment?: any
   serpTags?: any
   opportunity?: string
-  strengths?: any[]
 }
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    display: 'flex'
+    display: 'block',
+    position: 'relative',
   },
   media: {
-    width: 420,
-    height: 310
+    top: 0,
+    minWidth: '100%',
+    height: 269,
+    position: 'absolute',
+  },
+  contentWrapper: {
+    width: '100%',
+    paddingTop: 250,
+    display: 'flex'
   },
   title: {
-    width: '70%',
+    display: 'block',
+    margin: 'auto',
     textAlign: 'center',
+    background: `${theme.palette.background.paper}e`,
+    borderRadius: theme.shape.borderRadius,
+    width: 480,
+    zIndex: theme.zIndex.drawer - 1,
+    paddingBottom: '0 !important',
   },
   strengthsPaper: {
     flexWrap: 'wrap',
@@ -31,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   chipContainer: {
-    padding: 0
+    padding: 0,
+    backgroundColor: 'transparent'
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -42,10 +56,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PostTitleComponent: React.FC<TPostTitleComponent> = (props) => {
-  const { objective, attachments, commitment, opportunity, strengths } = props
+  const { objective, attachments, commitment, opportunity } = props
   const classes = useStyles()
   const img = attachments?.length ? attachments[0].address : ''
-  const xp: any[] = parseStrengths(strengths)
 
   return (
     <div className={classes.container}>
@@ -54,44 +67,14 @@ const PostTitleComponent: React.FC<TPostTitleComponent> = (props) => {
         title="cover"
         className={classes.media}
       />
-      <CardContent className={classes.title}>
-        <Typography gutterBottom variant="h5" component="h2">{objective}</Typography>
-        <Typography gutterBottom variant="body1" component="h3">{`${snakeTypesStringParse(commitment.code)} - ${snakeTypesStringParse(opportunity)}`}</Typography>
-        <Typography variant="body1" component="h6" className={classes.sectionTitle}>Skills and experience needed</Typography>
-        <Paper component="ul" elevation={0} className={classes.chipContainer}>
-          {xp.map((str, key: number) => {
-            return (
-              <li className={classes.strengthsPaper} key={key}>
-                <Typography gutterBottom variant="body2" component="p">{str.text}</Typography>
-                {str.names.map((name: string, key: number) => (<Chip key={key} label={name} className={classes.chip} />))}
-              </li>
-            )
-          })}
-        </Paper>
-      </CardContent>
+      <div className={classes.contentWrapper}>
+        <CardContent className={classes.title}>
+          <Typography gutterBottom variant="h5" component="h2">{objective}</Typography>
+          <Typography gutterBottom variant="body1" component="h3">{`${snakeTypesStringParse(commitment.code)} - ${snakeTypesStringParse(opportunity)}`}</Typography>
+        </CardContent>
+      </div>
     </div>
   )
-}
-
-function parseStrengths(strengths: any[] = []) {
-  const group = strengths.reduce((prev, curr) => {
-    const idx = prev.map((e: any) => e.group).indexOf(curr.experience)
-
-    if (idx >= 0) {
-      const newArr = [...prev]
-      newArr[idx].names.push(curr.name)
-      return newArr
-    }
-
-    return [...prev, {
-      group: curr.experience,
-      text: curr.experience.replace('-plus', '+').replace(/-/g, ' ') + ' of experience',
-      names: [curr.name]
-    }]
-
-  }, [])
-
-  return group
 }
 
 export default PostTitleComponent

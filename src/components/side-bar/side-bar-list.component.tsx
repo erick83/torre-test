@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
   },
   autocomplete: {
     width: 300,
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
+    marginTop: theme.spacing(1),
   }
 }));
 
@@ -149,6 +150,7 @@ const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
 
       <Autocomplete
         value={getAutocompleteValue('organization')}
+        size="small"
         options={organizations}
         loading={organizationLoading}
         open={organizationOpen}

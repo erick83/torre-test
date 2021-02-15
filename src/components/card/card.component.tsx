@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden'
   },
   logo: {
-    width: '10%'
+    width: 44,
   },
   body: {
-
+    width: '90%',
   },
   locations: {
     display: 'flex',

@@ -1,6 +1,5 @@
 import React from 'react'
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -11,6 +10,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textDecoration: 'none',
+    color: theme.palette.primary.contrastText
   },
 }));
 
@@ -20,13 +21,9 @@ const HeaderComponent: React.FC<any> = (props: any) => {
     <React.Fragment>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" component="a" href="/" className={classes.title}>
             Torre Developer Test
           </Typography>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </React.Fragment>

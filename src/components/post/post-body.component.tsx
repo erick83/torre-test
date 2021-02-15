@@ -13,6 +13,7 @@ export interface TPostBodyComponent {
   details?: any[]
   languages?: any[]
   opportunity?: string
+  strengths?: any[]
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
   itemContainer: {
     paddingLeft: theme.spacing(1),
     marginTop: 0,
-    display: 'flex'
+    display: 'flex',
+    listStyle: 'none'
   },
   money: {
     margin: theme.spacing(1)
@@ -58,12 +60,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PostBodyComponent: React.FC<TPostBodyComponent> = (props) => {
-  const { organizations, place, timezones, compensation, details, languages, opportunity } = props
+  const { organizations, place, timezones, compensation, details, languages, opportunity, strengths } = props
   const classes = useStyles()
+  const xp: any[] = parseStrengths(strengths)
 
   return (
     <div className={classes.container}>
       <CardContent className={classes.title}>
+        <Typography variant="body1" component="h6">Skills and experience needed</Typography>
+        <Paper component="ul" elevation={0} className={classes.itemContainer}>
+          {xp.map((str, key: number) => {
+            return (
+              <li>
+                <Typography gutterBottom variant="body2" component="p">{str.text}</Typography>
+                <div className={classes.strengthsPaper} key={key}>
+                  {str.names.map((name: string, key: number) => (<Chip key={key} label={name} className={classes.chip} />))}
+                </div>
+              </li>
+            )
+          })}
+        </Paper>
+
         <Typography gutterBottom variant="body1" component="h6">Organization(s) name(s)</Typography>
         <Paper component="ul" elevation={0} className={classes.itemContainer}>
           {organizations ? organizations.map((org, key: number) => {
@@ -204,6 +221,27 @@ function getStockCompensations(details: any[] | undefined) {
 
 function getDetail(code: string, details: any[] | undefined) {
   return details ? details.find((item: any) => item.code === code)?.content.split('• ') : []
+}
+
+function parseStrengths(strengths: any[] = []) {
+  const group = strengths.reduce((prev, curr) => {
+    const idx = prev.map((e: any) => e.group).indexOf(curr.experience)
+
+    if (idx >= 0) {
+      const newArr = [...prev]
+      newArr[idx].names.push(curr.name)
+      return newArr
+    }
+
+    return [...prev, {
+      group: curr.experience,
+      text: curr.experience.replace('-plus', '+').replace(/-/g, ' ') + ' of experience',
+      names: [curr.name]
+    }]
+
+  }, [])
+
+  return group
 }
 
 export default PostBodyComponent
