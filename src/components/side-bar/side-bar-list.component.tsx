@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { isEmpty, isNil } from 'lodash';
 import Fuse from 'fuse.js';
-import { CircularProgress, List, ListItem, ListItemText, makeStyles, TextField } from '@material-ui/core'
+import { CircularProgress, List, ListItem, ListItemText, TextField } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab';
 
 import { IAggregators, IAggregatorsType, IStore } from '../../models/store.interfaces';
@@ -8,39 +9,8 @@ import { aggTypesStringFormat } from '../../services/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { IPostQuerySearch } from '../../models/api.interfaces';
 import { getOpportunities } from '../../services/api-thunk';
-import { compensationrangeToString, parseFilterBody } from '../../services/parseFilters';
-import { isEmpty, isNil } from 'lodash';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  section: {
-    padding: 0,
-    paddingLeft: theme.spacing(2),
-    paddingTop: theme.spacing(2),
-  },
-  sectionText: {
-    fontSize: 14,
-  },
-  nestedList: {
-    padding: 0,
-  },
-  nestedItem: {
-    padding: 0,
-    paddingLeft: theme.spacing(4),
-  },
-  nestedText: {
-    fontSize: 14,
-  },
-  autocomplete: {
-    width: 300,
-    paddingLeft: theme.spacing(4),
-    marginTop: theme.spacing(1),
-  }
-}));
+import { parseFilterBody } from '../../services/parseFilters';
+import useStyles from './side-bar-list.styles'
 
 const SideBarListComponent: React.FC<{ data: IAggregators }> = ({ data }) => {
   const classes = useStyles()
