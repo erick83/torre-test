@@ -7,7 +7,7 @@ import { IAggregators, IAggregatorsType, IStore } from '../../models/store.inter
 import { aggTypesStringFormat } from '../../services/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { IPostQuerySearch } from '../../models/api.interfaces';
-import { getOpportunities } from '../../redux/api-thunk';
+import { getOpportunities } from '../../services/api-thunk';
 import { parseFilterBody } from '../../services/parseFilters';
 
 const useStyles = makeStyles((theme) => ({

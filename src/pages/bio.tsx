@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Container, makeStyles, Toolbar } from '@material-ui/core'
 
 import { HeaderComponent, PersonComponent, ResumeComponent, SkillsComponent } from '../components'
-import { getUsername } from '../redux/api-thunk'
+import { getUsername } from '../services/api-thunk'
 import { useParams } from 'react-router-dom'
 import { IStore } from '../models/store.interfaces'
 

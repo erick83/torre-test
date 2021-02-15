@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Card, Container, makeStyles, Toolbar } from '@material-ui/core'
 
 import { HeaderComponent, PostTitleComponent, PostBodyComponent } from '../components'
-import { getOpportunitie } from '../redux/api-thunk'
+import { getOpportunitie } from '../services/api-thunk'
 import { useParams } from 'react-router-dom'
 import { IStore } from '../models/store.interfaces'
 

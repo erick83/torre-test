@@ -2,18 +2,20 @@ import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { capitalize, difference } from 'lodash'
 import { makeStyles, TextField } from '@material-ui/core'
-import { getOpportunities } from '../redux/api-thunk';
+import { getOpportunities } from '../../services/api-thunk';
 import { Autocomplete } from '@material-ui/lab'
 
-import { IStore } from '../models/store.interfaces'
+import { IStore } from '../../models/store.interfaces'
 
 const useStyles = makeStyles((theme) => ({
   searchContainer: {
-    paddingTop: theme.spacing(6)
+    paddingTop: theme.spacing(4),
+    maxWidth: 900,
+    margin: `${theme.spacing(4)}px auto`
   },
 }));
 
-const SearchComponent: React.FC<any> = (props: any) => {
+const SearchComponent: React.FC = () => {
   const body = useSelector((state: IStore) => state.opportunities?.search?.body)
   const [values, setValues] = React.useState<any[] | undefined>([]);
   const classes = useStyles()
@@ -36,8 +38,6 @@ const SearchComponent: React.FC<any> = (props: any) => {
   useEffect(() => {
     setValues(parseSearchFromBody(body))
   }, [body])
-
-  console.log(values)
 
   return (
     <div className={classes.searchContainer}>

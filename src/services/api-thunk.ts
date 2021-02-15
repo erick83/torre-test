@@ -1,8 +1,8 @@
 import { isNil, isEmpty } from 'lodash'
-import { get, post } from '../services/fetchSerice'
-import { storeBios } from './bios/actions'
-import { storeAggregators, storeAggregatorsBody, storeOpportunitie, storeOpportunities  } from './opportunities/actions'
-import { showLoader, hideLoader } from './loader/actions'
+import { get, post } from './fetchSerice'
+import { storeBios } from '../redux/bios/actions'
+import { storeAggregators, storeAggregatorsBody, storeOpportunitie, storeOpportunities  } from '../redux/opportunities/actions'
+import { showLoader, hideLoader } from '../redux/loader/actions'
 import { IPostQuerySearch } from '../models/api.interfaces'
 
 const defaultQs: IPostQuerySearch = {
