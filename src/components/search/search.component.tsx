@@ -61,7 +61,6 @@ const SearchComponent: React.FC = () => {
 
       dispatch(getOpportunities(qs, bodyPayload))
     } else {
-      console.log(newValue)
       let bodyParsed = {}
       newValue.forEach((item: any) => {
         bodyParsed = parseFilterBody(item?.section, { value: item?.value, total: 0 } as IAggregatorsType , body)
